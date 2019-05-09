@@ -11,7 +11,7 @@ namespace clean {
 		if (!current_instruction)
 			return false;
 
-		auto MmUnloadedDrivers = current_instruction + *reinterpret_cast<std::uint32_t*>(current_instruction + 3) + 7;
+		auto MmUnloadedDrivers = current_instruction + *reinterpret_cast<std::int32_t*>(current_instruction + 3) + 7;
 
 		print("[uc_driver.sys] found MmUnloadDrivers at 0x%llx\n", MmUnloadedDrivers);
 
@@ -36,7 +36,7 @@ namespace clean {
 			if (!address)
 				return 0;
 
-			return address + *reinterpret_cast<std::uint32_t*>(address + 3) + 7;
+			return address + *reinterpret_cast<std::int32_t*>(address + 3) + 7;
 		};
 
 		auto PiDDBCacheTable = *reinterpret_cast<PRTL_AVL_TABLE*>(resolve_rip(memory::from_pattern("\x48\x8d\x0d\x00\x00\x00\x00\xe8\x00\x00\x00\x00\x3d\x00\x01\x00\x00", "xxx????x????xxxxx")));
