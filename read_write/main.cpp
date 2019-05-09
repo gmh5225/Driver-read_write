@@ -17,7 +17,7 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT driver_object, PUNICODE_STRING registry_path
 
 	memory::init();
 
-	print("[uc_driver.sys] driver object: 0x%p\n", hooked_object);
+	print("[uc_driver.sys] %wZ driver object: 0x%p\n", &hooked_driver, hooked_object);
 
 	original_irp = hooked_object->MajorFunction[IRP_MJ_DEVICE_CONTROL];
 	
@@ -31,10 +31,13 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT driver_object, PUNICODE_STRING registry_path
 
 	hooked_object->MajorFunction[IRP_MJ_DEVICE_CONTROL] = control;
 
-	driver_object->DriverUnload = nullptr;
-	
-	clean::cache();
-	clean::unloaded_drivers();
+	if (!clean::cache())
+		print("[uc_driver.sys] failed to clear the PiDDBCacheTable entry\n");
+
+	if (!clean::unloaded_drivers())
+		print("[uc_driver.sys] failed to clear the MmUnloadedDrivers list\n");
+
+	print("[uc_driver.sys] done cleaning module traces!\n");
 
 	return STATUS_SUCCESS;
 }
