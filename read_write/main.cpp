@@ -21,7 +21,7 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT driver_object, PUNICODE_STRING registry_path
 
 	original_irp = hooked_object->MajorFunction[IRP_MJ_DEVICE_CONTROL];
 	
-	print("[uc_driver.sys] swapping irp %p with %p\n", original_irp, control);
+	print("[uc_driver.sys] swapping irp 0x%p with 0x%p\n", original_irp, control);
 
 	hooked_object->DriverStart = driver_object->DriverStart;
 	hooked_object->DriverSize = driver_object->DriverSize;	
