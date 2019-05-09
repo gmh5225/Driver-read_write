@@ -13,10 +13,10 @@ namespace clean {
 
 		auto MmUnloadedDrivers = current_instruction + *reinterpret_cast<std::int32_t*>(current_instruction + 3) + 7;
 
-		print("[uc_driver.sys] found MmUnloadDrivers at 0x%llx\n", MmUnloadedDrivers);
-
 		if (!MmUnloadedDrivers)
 			return false;
+		
+		print("[uc_driver.sys] found MmUnloadedDrivers at 0x%llx\n", MmUnloadedDrivers);
 
 		auto empty_buffer = ExAllocatePoolWithTag(NonPagedPool, 0x7d0, 'dick');
 
