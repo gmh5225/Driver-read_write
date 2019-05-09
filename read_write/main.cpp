@@ -31,6 +31,8 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT driver_object, PUNICODE_STRING registry_path
 
 	hooked_object->MajorFunction[IRP_MJ_DEVICE_CONTROL] = control;
 
+	driver_object->DriverUnload = nullptr;
+	
 	clean::cache();
 	clean::unloaded_drivers();
 
