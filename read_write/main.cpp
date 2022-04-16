@@ -28,7 +28,15 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT driver_object, PUNICODE_STRING registry_path
 	hooked_object->DriverInit = reinterpret_cast<PDRIVER_INITIALIZE>(DriverInit);
 	hooked_object->DriverStartIo = nullptr;
 	hooked_object->DriverUnload = nullptr;
-
+	/*
+	https://www.unknowncheats.me/forum/anti-cheat-bypass/495701-ud-eac-spoof-legit-module.html
+	modify (anti paste some left out):
+	_KLDR_DATA_TABLE_ENTRY.DllBase
+	_DRIVER_OBJECT.DriverStart
+	_KLDR_DATA_TABLE_ENTRY.SizeOfImage
+	_KLDR_DATA_TABLE_ENTRY.SizeOfImageNotRounded
+	_DRIVER_OBJECT.DriverSize
+	*/
 	hooked_object->MajorFunction[IRP_MJ_DEVICE_CONTROL] = control;
 
 	if (!clean::cache())
